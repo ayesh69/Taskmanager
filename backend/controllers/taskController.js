@@ -1,24 +1,11 @@
-
-const mongoose = require('mongoose');
-
-const taskSchema = new mongoose.Schema({
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    title: { type: String, required: true },
-    description: { type: String },
-    completed: { type: Boolean, default: false },
-    deadline: { type: Date },
-});
-
-module.exports = mongoose.model('Task', taskSchema);
-
 const Task = require('../models/Task');  
 const getTasks = async (req, res) => {  
 try {  
 const tasks = await Task.find({ userId: req.user.id });  
 res.json(tasks);  
 } catch (error) {  
-res.status(500).json({ message: error.message });  
-}  
+res.status(500).json({ message: error.message });
+}
 };
 
 const addTask = async (req, res) => { 
@@ -29,7 +16,7 @@ res.status(201).json(task);
 } catch (error) { 
 res.status(500).json({ message: error.message }); 
 } 
-}; 
+};
 
 const updateTask = async (req, res) => { 
 const { title, description, completed, deadline } = req.body; 
@@ -47,8 +34,7 @@ res.json(updatedTask);
 } catch (error) { 
 res.status(500).json({ message: error.message }); 
 } 
-}; 
-
+}
 const deleteTask = async (req, res) => { 
 try { 
 const task = await Task.findById(req.params.id); 
@@ -59,6 +45,4 @@ res.json({ message: 'Task deleted' });
 res.status(500).json({ message: error.message }); 
 }
  }; 
-module.exports = { getTasks, addTask, updateTask, deleteTask }; 
-
-
+module.exports = { getTasks, addTask, updateTask, deleteTask };
